@@ -26,9 +26,9 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/custom.css') }}">
 
     <!-- Toastr CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.css"
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.css"
         integrity="sha512-8D+M+7Y6jVsEa7RD6Kv/Z7EImSpNpQllgaEIQAtqHcI0H6F4iZknRj0Nx1DCdB+TwBaS+702BGWYC0Ze2hpExQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+        crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
 
     @stack('style')
 </head>
@@ -73,17 +73,17 @@
                                 <li class="menu-item has-children">
                                     <a href="javascript:void(0);" class="menu-item-button">
                                         <div class="icon"><i class="icon-shopping-cart"></i></div>
-                                        <div class="text">Products</div>
+                                        <div class="text">Sản phẩm</div>
                                     </a>
                                     <ul class="sub-menu">
                                         <li class="sub-menu-item">
-                                            <a href="add-product.html" class="">
-                                                <div class="text">Add Product</div>
+                                            <a href="{{ route('admin.product.add') }}" class="">
+                                                <div class="text">Thêm sản phẩm</div>
                                             </a>
                                         </li>
                                         <li class="sub-menu-item">
-                                            <a href="products.html" class="">
-                                                <div class="text">Products</div>
+                                            <a href="{{ route('admin.products') }}" class="">
+                                                <div class="text">Sản phẩm</div>
                                             </a>
                                         </li>
                                     </ul>
@@ -91,17 +91,17 @@
                                 <li class="menu-item has-children">
                                     <a href="javascript:void(0);" class="menu-item-button">
                                         <div class="icon"><i class="icon-layers"></i></div>
-                                        <div class="text">Brand</div>
+                                        <div class="text">Thương hiệu</div>
                                     </a>
                                     <ul class="sub-menu">
                                         <li class="sub-menu-item">
                                             <a href="{{ route('admin.brand.add') }}" class="">
-                                                <div class="text">New Brand</div>
+                                                <div class="text">Thêm thương hiệu</div>
                                             </a>
                                         </li>
                                         <li class="sub-menu-item">
                                             <a href="{{ route('admin.brands') }}" class="">
-                                                <div class="text">Brands</div>
+                                                <div class="text">DS thương hiệu</div>
                                             </a>
                                         </li>
                                     </ul>
@@ -109,17 +109,17 @@
                                 <li class="menu-item has-children">
                                     <a href="javascript:void(0);" class="menu-item-button">
                                         <div class="icon"><i class="icon-layers"></i></div>
-                                        <div class="text">Category</div>
+                                        <div class="text">Danh mục</div>
                                     </a>
                                     <ul class="sub-menu">
                                         <li class="sub-menu-item">
-                                            <a href="add-category.html" class="">
-                                                <div class="text">New Category</div>
+                                            <a href="{{ route('admin.category.add') }}" class="">
+                                                <div class="text">Thêm danh mục</div>
                                             </a>
                                         </li>
                                         <li class="sub-menu-item">
-                                            <a href="categories.html" class="">
-                                                <div class="text">Categories</div>
+                                            <a href="{{ route('admin.categories') }}" class="">
+                                                <div class="text">Danh sách danh mục</div>
                                             </a>
                                         </li>
                                     </ul>
@@ -489,9 +489,9 @@
     <script src="{{ asset('js/main.js') }}"></script>
 
     <!-- Toastr JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"
         integrity="sha512-zlWWyZq71UMApAjih4WkaRpikgY9Bz1oXIW5G0fED4vk14JjGlQ1UmkGM392jEULP8jbNMiwLWdM8Z87Hu88Fw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
     <script>
         (function($) {
 

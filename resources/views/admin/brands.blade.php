@@ -1,13 +1,10 @@
 @extends('layouts.admin')
 
 @section('content')
-    @if (Session::has('success'))
-        <p class="alert alert-success">{{ Session::get('success') }}</p>
-    @endif
     <div class="main-content-inner">
         <div class="main-content-wrap">
             <div class="flex items-center flex-wrap justify-between gap20 mb-27">
-                <h3>Brands</h3>
+                <h3>Thương hiệu</h3>
                 <ul class="breadcrumbs flex items-center flex-wrap justify-start gap10">
                     <li>
                         <a href="{{ route('admin.index') }}">
@@ -18,7 +15,7 @@
                         <i class="icon-chevron-right"></i>
                     </li>
                     <li>
-                        <div class="text-tiny">Brands</div>
+                        <div class="text-tiny">Thương hiệu</div>
                     </li>
                 </ul>
             </div>
@@ -36,47 +33,45 @@
                             </div>
                         </form>
                     </div>
-                    <a class="tf-button style-1 w208" href="{{ route('admin.brand.add') }}"><i class="icon-plus"></i>Add
-                        new</a>
+                    <a class="tf-button style-1 w208" href="{{ route('admin.brand.add') }}">
+                        <i class="icon-plus"></i>Thêm thương hiệu
+                    </a>
                 </div>
                 <div class="wg-table table-all-user">
                     <div class="table-responsive">
-                        {{-- @if (Session::has('success'))
-                            <p class="alert alert-success">{{ Session::get('success') }}</p>
-                        @endif --}}
                         <table class="table table-striped table-bordered">
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Name</th>
-                                    <th>Slug</th>
-                                    <th>Products</th>
-                                    <th>Action</th>
+                                    <th>Tên thương hiệu</th>
+                                    <th>Đường dẫn</th>
+                                    <th>Số sản phẩm</th>
+                                    <th>Hành động</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($brands as $brand)
+                                @for ($i = 0; $i < count($brands); $i++)
                                     <tr>
-                                        <td>{{ $brand->id }}</td>
+                                        <td>{{ $i + 1 }}</td>
                                         <td class="pname">
                                             <div class="image">
-                                                <img src="{{ asset('uploads/brands') }}/{{ $brand->image }}"
-                                                    alt="{{ $brand->name }}" class="image">
+                                                <img src="{{ asset('uploads/brands') }}/{{ $brands[$i]->image }}"
+                                                    alt="{{ $brands[$i]->name }}" class="image">
                                             </div>
                                             <div class="name">
-                                                <a href="#" class="body-title-2">{{ $brand->name }}</a>
+                                                <a href="#" class="body-title-2">{{ $brands[$i]->name }}</a>
                                             </div>
                                         </td>
-                                        <td>{{ $brand->slug }}</td>
+                                        <td>{{ $brands[$i]->slug }}</td>
                                         <td><a href="#" target="_blank">0</a></td>
                                         <td>
                                             <div class="list-icon-function">
-                                                <a href="{{ route('admin.brand.edit', ['id' => $brand->id]) }}">
+                                                <a href="{{ route('admin.brand.edit', ['id' => $brands[$i]->id]) }}">
                                                     <div class="item edit">
                                                         <i class="icon-edit-3"></i>
                                                     </div>
                                                 </a>
-                                                <form action="{{ route('admin.brand.delete', ['id' => $brand->id]) }}"
+                                                <form action="{{ route('admin.brand.delete', ['id' => $brands[$i]->id]) }}"
                                                     method="POST">
                                                     @csrf
                                                     @method('DELETE')
@@ -87,7 +82,7 @@
                                             </div>
                                         </td>
                                     </tr>
-                                @endforeach
+                                @endfor
                             </tbody>
                         </table>
                     </div>

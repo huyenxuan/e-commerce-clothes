@@ -48,10 +48,10 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Name</th>
-                                    <th>Slug</th>
-                                    <th>Products</th>
-                                    <th>Action</th>
+                                    <th>Tên danh mục</th>
+                                    <th>Đường dẫn</th>
+                                    <th>Số sản phẩm</th>
+                                    <th>Hành động</th>
                                 </tr>
                             </thead>
                             <tbody>

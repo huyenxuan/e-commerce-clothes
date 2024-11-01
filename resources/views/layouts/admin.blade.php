@@ -83,7 +83,7 @@
                                         </li>
                                         <li class="sub-menu-item">
                                             <a href="{{ route('admin.products') }}" class="">
-                                                <div class="text">Sản phẩm</div>
+                                                <div class="text">DS Sản phẩm</div>
                                             </a>
                                         </li>
                                     </ul>
@@ -119,7 +119,7 @@
                                         </li>
                                         <li class="sub-menu-item">
                                             <a href="{{ route('admin.categories') }}" class="">
-                                                <div class="text">Danh sách danh mục</div>
+                                                <div class="text">DS danh mục</div>
                                             </a>
                                         </li>
                                     </ul>

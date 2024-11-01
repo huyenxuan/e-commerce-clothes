@@ -76,7 +76,7 @@
                                         <td>{{ $product->SKU }}</td>
                                         <td>{{ $product->category->name ?? 'N/A' }}</td>
                                         <td>{{ $product->brand->name ?? 'N/A' }}</td>
-                                        <td>{{ $product->featured == 0 ? 'No' : 'Yes' }}</td>
+                                        <td>{{ $product->featured == 0 ? 'Không' : 'Có' }}</td>
                                         <td>{{ $product->stock_status }}</td>
                                         <td>{{ $product->quantity }}</td>
                                         <td>

@@ -10,8 +10,6 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use Carbon\Carbon;
 use Intervention\Image\Laravel\Facades\Image;
-// use Intervention\Image\ImageManagerStatic as Image;
-
 
 class AdminController extends Controller
 {
@@ -71,9 +69,9 @@ class AdminController extends Controller
         $this->GenerateBrandThumbnailsImage($image, $file_name);
         $brand->save();
 
-        // toastr()->success('Thêm thương hiệu thành công');
+        toastr()->success('Thêm thương hiệu thành công', [], 'Thành công');
         // ->with('success', 'Thêm thương hiệu thành công')
-        return redirect()->route('admin.brands')->with('success', 'Thêm thương hiệu thành công');
+        return redirect()->route('admin.brands');
     }
     // edit brand
     public function brand_edit($id)
@@ -120,9 +118,8 @@ class AdminController extends Controller
         }
         $brand->save();
 
-        // toastr()->success('Cập nhật thương hiệu thành công');
-        // ->with('success', 'Thêm thương hiệu thành công')
-        return redirect()->route('admin.brands')->with('ư', 'Thêm thương hiệu thành công');
+        toastr()->success('Cập nhật thương hiệu thành công', [], 'Thành công');
+        return redirect()->route('admin.brands')->with('success', 'Thêm thương hiệu thành công');
     }
     // delete brand
     public function brand_delete($id)
@@ -132,8 +129,7 @@ class AdminController extends Controller
             File::delete(public_path('uploads/brands') . '/' . $brand->image);
         }
         $brand->delete();
-        // toastr()->success('Xóa thương hiệu thành công');
-        // ->with('success', 'Xóa thương hiệu thành công')
+        toastr()->success('Xóa thương hiệu thành công', [], 'Thành công');
         return redirect()->route('admin.brands')->with('success', 'Xóa thương hiệu thành công');
     }
 
@@ -151,7 +147,7 @@ class AdminController extends Controller
     public function GenerateBrandThumbnailsImage($image, $imageName)
     {
         $destinationPath = public_path('uploads/brands');
-        $img = Image::read($image->path());  // Changed 'read' to 'make'
+        $img = Image::read($image->path());
         $img->cover(124, 124, 'top');
         $img->resize(124, 124, function ($constraint) {
             $constraint->aspectRatio();
@@ -204,8 +200,7 @@ class AdminController extends Controller
         $this->GenerateCategoryThumbnailsImage($image, $file_name);
         $categoey->save();
 
-        // toastr()->success('Thêm danh mục thành công');
-        // ->with('success', 'Thêm danh mục thành công')
+        toastr()->success('Thêm danh mục thành công', [], 'Thành công');
         return redirect()->route('admin.categories')->with('success', 'Thêm danh mục thành công');
     }
     // edit category
@@ -254,6 +249,7 @@ class AdminController extends Controller
 
         // toastr()->success('Cập nhật thương hiệu thành công');
         // ->with('success', 'Thêm thương hiệu thành công')
+        toastr()->success('Cập nhật danh mục thành công', [], 'Thành công');
         return redirect()->route('admin.categories')->with('success', 'Cập nhật danh mục thành công');
     }
     // delete category
@@ -264,6 +260,7 @@ class AdminController extends Controller
             File::delete(public_path('uploads/categories') . '/' . $category->image);
         }
         $category->delete();
+        toastr()->success('Cập nhật danh mục thành công', [], 'Thành công');
         return redirect()->route('admin.categories')->with('success', 'Xóa danh mục thành công');
     }
     public function GenerateCategoryThumbnailsImage($image, $imageName)
@@ -293,6 +290,11 @@ class AdminController extends Controller
     // store product
     public function product_store(Request $request)
     {
+        // Tạo slug từ name nếu slug không được gửi từ client
+        $request->merge([
+            'slug' => $request->input('slug') ?: Str::slug($request->input('name')),
+        ]);
+
         // Validate dữ liệu
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -305,7 +307,7 @@ class AdminController extends Controller
             'stock_status' => ['required'],
             'featured' => ['required'],
             'quantity' => ['required', 'numeric'],
-            'image' => ['required', 'mimes:png,jpg,jpeg', 'max:3072'],
+            // 'image' => ['required', 'mimes:png,jpg,jpeg', 'max:3072'],
             'category_id' => ['required'],
             'brand_id' => ['required'],
         ], [
@@ -324,7 +326,7 @@ class AdminController extends Controller
             'quantity.required' => 'Số lượng không được để trống',
             'quantity.numeric' => 'Số lượng phải là số',
             'image.required' => 'Ảnh sản phẩm không được để trống',
-            'image.mimes' => 'Định dạng ảnh phải là PNG, JPG, JPEG',
+            // 'image.mimes' => 'Định dạng ảnh phải là PNG, JPG, JPEG',
             'image.max' => 'Kích thước ảnh không quá 3MB',
             'category_id.required' => 'Danh mục sản phẩm không được để trống',
             'brand_id.required' => 'Thương hiệu sản phẩm không được để trống',
@@ -333,7 +335,7 @@ class AdminController extends Controller
         // khởi tạo sản phẩm
         $product = new Product();
         $product->name = $request->name;
-        $product->slug = Str::slug($request->name);
+        $product->slug = $request->slug;
         $product->short_description = $request->short_description;
         $product->description = $request->description;
         $product->regular_price = $request->regular_price;
@@ -378,6 +380,7 @@ class AdminController extends Controller
         $product->images = $gallery_images;
         // lưu vào database
         $product->save();
+        toastr()->success('Thêm sản phẩm thành công', [], 'Thành công');
         return redirect()->route('admin.products')->with('success', 'Thêm sản phẩm thành công');
     }
     public function GenerateProductImage($image, $imageName)
@@ -422,7 +425,7 @@ class AdminController extends Controller
             'stock_status' => ['required'],
             'featured' => ['required'],
             'quantity' => ['required', 'numeric'],
-            'image' => ['mimes:png,jpg,jpeg', 'max:3072'],
+            // 'image' => ['mimes:png,jpg,jpeg', 'max:3072'],
             'category_id' => ['required'],
             'brand_id' => ['required'],
         ], [
@@ -440,7 +443,7 @@ class AdminController extends Controller
             'featured.required' => 'Sản phẩm nổi bật không được để trống',
             'quantity.required' => 'Số lượng không được để trống',
             'quantity.numeric' => 'Số lượng phải là số',
-            'image.mimes' => 'Định dạng ảnh phải là PNG, JPG, JPEG',
+            // 'image.mimes' => 'Định dạng ảnh phải là PNG, JPG, JPEG',
             'image.max' => 'Kích thước ảnh không quá 3MB',
             'category_id.required' => 'Danh mục sản phẩm không được để trống',
             'brand_id.required' => 'Thương hiệu sản phẩm không được để trống',
@@ -511,6 +514,7 @@ class AdminController extends Controller
         $product->images = $gallery_images;
         // lưu vào database
         $product->save();
+        toastr()->success('Cập nhật sản phẩm thành công', [], 'Thành công');
         return redirect()->route('admin.products')->with('success', 'Cập nhật sản phẩm thành công');
     }
 
@@ -533,6 +537,7 @@ class AdminController extends Controller
             }
         }
         $product->delete();
+        toastr()->success('Xóa sản phẩm thành công', [], 'Thành công');
         return redirect()->route('admin.products')->with('success', 'Xóa sản phẩm thành công');
     }
 }

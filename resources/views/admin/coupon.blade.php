@@ -1,4 +1,7 @@
 @extends('layouts.admin')
+@section('title')
+    Danh sách mã giảm giá
+@endsection
 @section('content')
     <div class="main-content-inner">
         <div class="main-content-wrap">

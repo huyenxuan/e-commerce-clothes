@@ -27,6 +27,11 @@ Route::delete('/cart/clear', [CartController::class, 'clear_cart'])->name('cart.
 Route::post('/cart/apply-coupon', [CartController::class, 'apply_coupon'])->name('cart.coupon.apply');
 Route::delete('/cart/remove-coupon', [CartController::class, 'remove_coupon'])->name('cart.coupon.remove');
 
+// checkout
+Route::get('/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+
+// search
+
 // wishlist
 Route::get('/wishlist', [WishListController::class, 'index'])->name('wishlist.index');
 Route::post('/wishlist/add', [WishListController::class, 'add_to_wishlist'])->name('wishlist.add');

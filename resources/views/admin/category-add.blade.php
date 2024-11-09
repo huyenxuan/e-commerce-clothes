@@ -1,5 +1,7 @@
 @extends('layouts.admin')
-
+@section('title')
+    Thêm danh mục
+@endsection
 @section('content')
     <div class="main-content-inner">
         <div class="main-content-wrap">

@@ -1,5 +1,7 @@
 @extends('layouts.admin')
-
+@section('title')
+    {{ $product->name }}
+@endsection
 @section('content')
     <div class="main-content-inner">
         <!-- main-content-wrap -->

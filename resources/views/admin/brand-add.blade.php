@@ -1,4 +1,7 @@
 @extends('layouts.admin')
+@section('title')
+    Thêm thương hiệu
+@endsection
 
 @section('content')
     <div class="main-content-inner">

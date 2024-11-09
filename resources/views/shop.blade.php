@@ -1,4 +1,7 @@
 @extends('layouts.app')
+@section('title')
+    Cửa hàng
+@endsection
 @section('content')
     <style>
         .brand-list li .chk-brand,

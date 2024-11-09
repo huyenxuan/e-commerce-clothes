@@ -1,4 +1,7 @@
 @extends('layouts.app')
+@section('title')
+    Đăng ký
+@endsection
 
 @section('content')
     <main class="pt-90">

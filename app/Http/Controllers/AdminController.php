@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Coupon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
@@ -539,5 +540,93 @@ class AdminController extends Controller
         $product->delete();
         toastr()->success('Xóa sản phẩm thành công', [], 'Thành công');
         return redirect()->route('admin.products')->with('success', 'Xóa sản phẩm thành công');
+    }
+
+    // coupon code
+    public function coupons()
+    {
+        $coupons = Coupon::orderBy('expiry_date', 'desc')->paginate(12);
+        return view('admin.coupon', compact('coupons'));
+    }
+    // add coupon
+    public function coupon_add()
+    {
+        return view('admin.coupon-add');
+    }
+    // store coupon
+    public function coupon_store(Request $request)
+    {
+        $request->validate([
+            'code' => 'required|unique:coupons,code|max:20',
+            'type' => 'required',
+            'value' => 'required|numeric',
+            'cart_value' => 'required|numeric',
+            'expiry_date' => 'required|date',
+        ], [
+            'code.required' => 'Mã giảm giá không được để trống',
+            'code.unique' => 'Mã giảm giá đã tồn tại',
+            'code.max' => 'Mã giảm giá không vượt quá 20 ký tự',
+            'type.required' => 'Thể loại mã không được để trống',
+            'value.required' => 'Giảm giá không được để trống',
+            'value.numeric' => 'Giảm giá phải là số',
+            'cart_value.required' => 'Giá trị giỏ hàng không được để trống',
+            'expiry_date.required' => 'Ngày hết hạn không được để trống',
+            'expiry_date.date' => 'Ngày hết hạn phải dưới dạng ngày tháng',
+        ]);
+
+        $coupon = new Coupon();
+        $coupon->code = $request->code;
+        $coupon->type = $request->type;
+        $coupon->value = $request->value;
+        $coupon->cart_value = $request->cart_value;
+        $coupon->expiry_date = $request->expiry_date;
+        $coupon->save();
+
+        toastr()->success('Thêm mã giảm giá thành công', [], 'Thành công');
+        return redirect()->route('admin.coupons');
+    }
+    // edit coupon
+    public function coupon_edit($id)
+    {
+        $coupon = Coupon::find($id);
+        return view('admin.coupon-edit', compact('coupon'));
+    }
+    // update coupon
+    public function coupon_update(Request $request)
+    {
+        $coupon = Coupon::find($request->id);
+        $request->validate([
+            'code' => 'required|max:20|unique:coupons,code,' . $request->id . ',id',
+            'type' => 'required',
+            'value' => 'required|numeric',
+            'cart_value' => 'required|numeric',
+            'expiry_date' => 'required|date',
+        ], [
+            'code.required' => 'Mã giảm giá không được để trống',
+            'code.unique' => 'Mã giảm giá đã tồn tại',
+            'code.max' => 'Mã giảm giá không vượt quá 20 ký tự',
+            'type.required' => 'Thể loại mã không được để trống',
+            'value.required' => 'Giảm giá không được để trống',
+            'value.numeric' => 'Giảm giá phải là số',
+            'cart_value.required' => 'Giá trị giỏ hàng không được để trống',
+            'expiry_date.required' => 'Ngày hết hạn không được để trống',
+            'expiry_date.date' => 'Ngày hết hạn phải dưới dạng ngày tháng',
+        ]);
+        $coupon->code = $request->code;
+        $coupon->type = $request->type;
+        $coupon->value = $request->value;
+        $coupon->cart_value = $request->cart_value;
+        $coupon->expiry_date = $request->expiry_date;
+        $coupon->save();
+        toastr()->success('Cập nhật mã giảm giá thành công', [], 'Thành công');
+        return redirect()->route('admin.coupons');
+    }
+    // delete coupon
+    public function coupon_delete($id)
+    {
+        $coupon = Coupon::find($id);
+        $coupon->delete();
+        toastr()->success('Xóa mã giảm giá thành công', [], 'Thành công');
+        return redirect()->route('admin.coupons');
     }
 }

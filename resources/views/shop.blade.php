@@ -324,17 +324,17 @@
 
                     <div
                         class="shop-acs d-flex align-items-center justify-content-between justify-content-md-end flex-grow-1">
-                        <select class="shop-acs__select form-select w-auto border-0 py-0 order-1 order-md-0 mx-3"
-                            aria-label="Page Size" id="pagesize" name="pagesize">
+                        <select class="shop-acs__select form-select w-auto border-0 py-0 px-1 order-1 order-md-0 mx-3"
+                            style="width: 80px !important" aria-label="Page Size" id="pagesize" name="pagesize">
                             <option value="12" {{ $size == 12 ? 'selected' : '' }}>Hiển thị</option>
                             <option value="24" {{ $size == 24 ? 'selected' : '' }}>24</option>
                             <option value="48" {{ $size == 48 ? 'selected' : '' }}>48</option>
                             <option value="102" {{ $size == 102 ? 'selected' : '' }}>102</option>
 
                         </select>
-                        <select class="shop-acs__select form-select w-auto border-0 py-0 order-1 order-md-0"
-                            aria-label="Sort Items" id="orderby" name="orderby">
-                            <option value="-1" {{ $order == -1 ? 'selected' : '' }}>Sắp xếp theo</option>
+                        <select class="shop-acs__select form-select w-auto border-0 py-0 px-1 order-1 order-md-0"
+                            style="width: 125px !important"aria-label="Sort Items" id="orderby" name="orderby">
+                            {{-- <option value="-1" {{ $order == -1 ? 'selected' : '' }}>Sắp xếp theo</option> --}}
                             <option value="1" {{ $order == 1 ? 'selected' : '' }}>Mới đến cũ</option>
                             <option value="2" {{ $order == 2 ? 'selected' : '' }}>Cũ đến mới</option>
                             <option value="3" {{ $order == 3 ? 'selected' : '' }}>Cao đến thấp</option>

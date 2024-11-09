@@ -25,10 +25,10 @@ class AuthAdmin
             } else {
                 Session::flush(); // xóa toàn bộ session
                 // Cookie::flush();
-                return redirect()->route('login')->with('success', 'login');
+                return redirect()->route('login')->with('success', 'Đăng xuất thành công');
             }
         } else {
-            return redirect()->route('login')->with('error', 'login lại');
+            return redirect()->route('login')->with('error', 'Đã xảy ra lỗi. Vui lòng đăng nhập lại');
         }
     }
 }

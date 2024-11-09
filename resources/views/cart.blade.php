@@ -105,11 +105,27 @@
                             </tbody>
                         </table>
                         <div class="cart-table-footer">
-                            <form action="#" class="position-relative bg-body">
-                                <input class="form-control" type="text" name="coupon_code" placeholder="Coupon Code">
-                                <input class="btn-link fw-medium position-absolute top-0 end-0 h-100 px-4" type="submit"
-                                    value="APPLY COUPON">
-                            </form>
+                            @if (Session::has('coupon'))
+                                <form action="{{ route('cart.coupon.remove') }}" method="POST"
+                                    class="position-relative bg-body">
+                                    @csrf
+                                    @method('DELETE')
+                                    <input class="form-control" type="text" name="coupon_code"
+                                        placeholder="Xóa mã khuyến mại"
+                                        value="@if (Session::has('coupon')) {{ Session::get('coupon')['code'] }} @endif">
+                                    <input class="btn-link fw-medium position-absolute top-0 end-0 h-100 px-4"
+                                        type="submit" value="Xóa mã khuyến mại">
+                                </form>
+                            @else
+                                <form action="{{ route('cart.coupon.apply') }}" method="POST"
+                                    class="position-relative bg-body">
+                                    @csrf
+                                    <input class="form-control" type="text" name="coupon_code"
+                                        placeholder="Mã khuyến mại" value="">
+                                    <input class="btn-link fw-medium position-absolute top-0 end-0 h-100 px-4"
+                                        type="submit" value="Mã khuyến mại">
+                                </form>
+                            @endif
                             <form action="{{ route('cart.clear') }}" method="post">
                                 @csrf
                                 @method('DELETE')
@@ -121,30 +137,63 @@
                         <div class="sticky-content">
                             <div class="shopping-cart__totals">
                                 <h3>Tổng đơn hàng</h3>
-                                <table class="cart-totals">
-                                    <tbody>
-                                        <tr>
-                                            <th>Tổng tiền</th>
-                                            <td>${{ Cart::instance('cart')->subtotal() }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Vận chuyển</th>
-                                            <td>
-                                                <div class="form-check">
-                                                    <label>Miễn phí vận chuyển</label>
-                                                </div>
-                                                <div>
-                                                    <a href="#" class="menu-link menu-link_us-s">Thay đổi địa
-                                                        chỉ</a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th>Tổng thanh toán</th>
-                                            <td>${{ Cart::instance('cart')->total() }}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                @if (Session::has('discounts'))
+                                    <table class="cart-totals">
+                                        <tbody>
+                                            <tr>
+                                                <th>Tổng tiền</th>
+                                                <td>${{ Cart::instance('cart')->subtotal() }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Khuyến mại</th>
+                                                <td>${{ Session::get('discounts')['discount'] }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Tổng tiền sau khuyến mại</th>
+                                                <td>${{ Session::get('discounts')['after_discount'] }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Vận chuyển</th>
+                                                <td>
+                                                    <div>Miễn phí vận chuyển</div>
+                                                    <div>
+                                                        <a href="#" class="menu-link menu-link_us-s">Thay đổi địa
+                                                            chỉ</a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>Tổng thanh toán</th>
+                                                <td>${{ Session::get('discounts')['after_discount'] }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                @else
+                                    <table class="cart-totals">
+                                        <tbody>
+                                            <tr>
+                                                <th>Tổng tiền</th>
+                                                <td>${{ Cart::instance('cart')->subtotal() }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Vận chuyển</th>
+                                                <td>
+                                                    <div class="form-check">
+                                                        <label>Miễn phí vận chuyển</label>
+                                                    </div>
+                                                    <div>
+                                                        <a href="#" class="menu-link menu-link_us-s">Thay đổi địa
+                                                            chỉ</a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>Tổng thanh toán</th>
+                                                <td>${{ Cart::instance('cart')->subtotal() }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                @endif
                             </div>
                             <div class="mobile_fixed-btn_wrapper">
                                 <div class="button-wrapper container">

@@ -145,29 +145,32 @@
                                         <tbody>
                                             <tr>
                                                 <th>Tổng tiền</th>
-                                                <td>${{ Cart::instance('cart')->subtotal() }}</td>
+                                                <td data-subtotal>${{ Cart::instance('cart')->subtotal() }}</td>
                                             </tr>
                                             <tr>
                                                 <th>Khuyến mại</th>
-                                                <td>${{ Session::get('discounts')['discount'] }}</td>
+                                                <td data-discount>${{ Session::get('discounts')['discount'] }}</td>
                                             </tr>
                                             <tr>
-                                                <th>Tổng tiền sau khuyến mại</th>
-                                                <td>${{ Session::get('discounts')['after_discount'] }}</td>
+                                                <th>Sau khuyến mại</th>
+                                                <td data-after-discount>${{ Session::get('discounts')['after_discount'] }}
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <th>Vận chuyển</th>
                                                 <td>
                                                     <div>Miễn phí vận chuyển</div>
                                                     <div>
-                                                        <a href="#" class="menu-link menu-link_us-s">Thay đổi địa
-                                                            chỉ</a>
+                                                        <a href="#" class="menu-link menu-link_us-s">
+                                                            Thay đổi địa chỉ
+                                                        </a>
                                                     </div>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <th>Tổng thanh toán</th>
-                                                <td>${{ Session::get('discounts')['after_discount'] }}</td>
+                                                <td data-after-discount>${{ Session::get('discounts')['after_discount'] }}
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -200,7 +203,8 @@
                             </div>
                             <div class="mobile_fixed-btn_wrapper">
                                 <div class="button-wrapper container">
-                                    <a href="checkout.html" class="btn btn-primary btn-checkout text-uppercase">Tiến hành
+                                    <a href="{{ route('cart.checkout') }}"
+                                        class="btn btn-primary btn-checkout text-uppercase">Tiến hành
                                         thanh toán</a>
                                 </div>
                             </div>

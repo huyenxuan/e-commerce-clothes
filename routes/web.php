@@ -29,6 +29,8 @@ Route::delete('/cart/remove-coupon', [CartController::class, 'remove_coupon'])->
 
 // checkout
 Route::get('/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+Route::post('/place-an-order', [CartController::class, 'place_an_order'])->name('cart.place_an_order');
+Route::get('/order-complete', [CartController::class, 'order_complete'])->name('cart.order_complete');
 
 // search
 
@@ -37,6 +39,8 @@ Route::get('/wishlist', [WishListController::class, 'index'])->name('wishlist.in
 Route::post('/wishlist/add', [WishListController::class, 'add_to_wishlist'])->name('wishlist.add');
 Route::delete('/wishlist/remove/item/{rowId}', [WishListController::class, 'remove_from_wishlist'])->name('wishlist.item.remove');
 Route::post('wishlist/move-to-cart/{rowId}', [WishListController::class, 'move_to_cart'])->name('wishlist.item.move_to_cart');
+
+// 
 
 // authenticated 
 // user

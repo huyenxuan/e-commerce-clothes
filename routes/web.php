@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\AboutController;
 use App\Http\Middleware\AuthAdmin;
 
 Auth::routes();
@@ -40,7 +41,8 @@ Route::post('/wishlist/add', [WishListController::class, 'add_to_wishlist'])->na
 Route::delete('/wishlist/remove/item/{rowId}', [WishListController::class, 'remove_from_wishlist'])->name('wishlist.item.remove');
 Route::post('wishlist/move-to-cart/{rowId}', [WishListController::class, 'move_to_cart'])->name('wishlist.item.move_to_cart');
 
-// 
+// about
+Route::get('/about', [AboutController::class, 'index'])->name('about.index');
 
 // authenticated 
 // user

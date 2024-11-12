@@ -40,11 +40,11 @@
         <div id="page" class="">
             <div class="layout-wrap">
                 {{-- loading --}}
-                {{-- <div id="preload" class="preload-container">
+                <div id="preload" class="preload-container">
                     <div class="preloading">
                         <span></span>
                     </div>
-                </div> --}}
+                </div>
 
                 <div class="section-menu-left">
                     <div class="box-logo">
@@ -130,17 +130,17 @@
                                 <li class="menu-item has-children">
                                     <a href="javascript:void(0);" class="menu-item-button">
                                         <div class="icon"><i class="icon-file-plus"></i></div>
-                                        <div class="text">Order</div>
+                                        <div class="text">Đơn hàng</div>
                                     </a>
                                     <ul class="sub-menu">
                                         <li class="sub-menu-item">
-                                            <a href="orders.html" class="">
-                                                <div class="text">Orders</div>
+                                            <a href="{{ route('admin.orders') }}" class="">
+                                                <div class="text">DS đơn hàng</div>
                                             </a>
                                         </li>
                                         <li class="sub-menu-item">
                                             <a href="order-tracking.html" class="">
-                                                <div class="text">Order tracking</div>
+                                                <div class="text">Theo dõi đơn hàng</div>
                                             </a>
                                         </li>
                                     </ul>
@@ -474,7 +474,7 @@
                         @yield('content')
 
                         <div class="bottom-page">
-                            <div class="body-text">Copyright © 2024 SurfsideMedia</div>
+                            <div class="body-text">Copyright © 2024 NXHUYENCLOTHES</div>
                         </div>
                     </div>
 
@@ -489,11 +489,6 @@
     <script src="{{ asset('js/sweetalert.min.js') }}"></script>
     <script src="{{ asset('js/apexcharts/apexcharts.js') }}"></script>
     <script src="{{ asset('js/main.js') }}"></script>
-
-    <!-- Toastr JS -->
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"
-        integrity="sha512-zlWWyZq71UMApAjih4WkaRpikgY9Bz1oXIW5G0fED4vk14JjGlQ1UmkGM392jEULP8jbNMiwLWdM8Z87Hu88Fw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
     <script>
         (function($) {
 

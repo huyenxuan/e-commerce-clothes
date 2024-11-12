@@ -42,7 +42,16 @@ Route::delete('/wishlist/remove/item/{rowId}', [WishListController::class, 'remo
 Route::post('wishlist/move-to-cart/{rowId}', [WishListController::class, 'move_to_cart'])->name('wishlist.item.move_to_cart');
 
 // about
-Route::get('/about', [AboutController::class, 'index'])->name('about.index');
+Route::get('/about', [HomeController::class, 'about'])->name('about.index');
+
+// contact
+Route::get('/contact', [HomeController::class, 'contact'])->name('contact.index');
+
+// privacy policy
+Route::get('/privacy-policy', [HomeController::class, 'privacy_policy'])->name('privacy_policy.index');
+
+// terms conditions
+Route::get('/terms-conditions', [HomeController::class, 'terms_conditions'])->name('terms_conditions.index');
 
 // authenticated 
 // user
@@ -83,4 +92,8 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     Route::get('/admin/coupons/edit/{id}', [AdminController::class, 'coupon_edit'])->name('admin.coupon.edit');
     Route::put('/admin/coupons/update', [AdminController::class, 'coupon_update'])->name('admin.coupon.update');
     Route::delete('/admin/coupons/delete/{id}', [AdminController::class, 'coupon_delete'])->name('admin.coupon.delete');
+
+    // order
+    Route::get('/admin/orders', [AdminController::class, 'orders'])->name(name: 'admin.orders');
+    Route::get('/admin/order/details/{id}', [AdminController::class, 'order_details'])->name('admin.order.details');
 });

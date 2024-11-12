@@ -45,19 +45,23 @@
                                 <h2 class="text-uppercase">Chi tiết vận chuyển</h2>
                             </div>
                         </div>
-
                         @if ($address)
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="my-account__address-list">
                                         <div class="my-account__address-list-item">
                                             <div class="my-account__address-item__detail">
-                                                <p>{{ $address->name }}</p>
-                                                <p>{{ $address->phone }}</p>
-                                                <p>{{ $address->city }}</p> {{-- thành phố --}}
-                                                <p>{{ $address->state }}</p> {{-- quận huyện --}}
-                                                <p>{{ $address->locality }}</p> {{-- xã phường --}}
-                                                <p>{{ $address->address }}</p>
+                                                <p>Họ tên: {{ $address->name }}</p>
+                                                <p>Số điện thoại: {{ $address->phone }}</p>
+                                                <p>Quốc gia: {{ $address->country }}</p>
+                                                <p>Tỉnh/Thành phố: {{ $address->city }}</p> {{-- thành phố --}}
+                                                <p>Huyện/Quận: {{ $address->state }}</p> {{-- quận huyện --}}
+                                                <p>Xã/Phường: {{ $address->locality }}</p> {{-- xã phường --}}
+                                                <p>Địa chỉ: {{ $address->address }}</p>
+                                            </div>
+                                            <div class="update-my-account__address mt-3">
+                                                <a class="fs-6 text-uppercase text-primary" href="">Thay đổi
+                                                    địa chỉ nhận hàng</a>
                                             </div>
                                         </div>
                                     </div>
@@ -170,7 +174,8 @@
                                             </tr>
                                             <tr>
                                                 <th>TỔNG TIỀN</th>
-                                                <td align="right">${{ Session::get('discounts')['after_discount'] }}</td>
+                                                <td align="right">${{ Session::get('discounts')['after_discount'] }}
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -200,8 +205,10 @@
                                     <label class="form-check-label" for="mode1">
                                         Chuyển khoản ngân hàng trực tiếp
                                         <p class="option-detail">
-                                            Thực hiện thanh toán trực tiếp vào tài khoản ngân hàng của chúng tôi. Vui lòng
-                                            sử dụng ID đặt hàng của bạn như thanh toán tham chiếu. Đơn hàng của bạn sẽ không
+                                            Thực hiện thanh toán trực tiếp vào tài khoản ngân hàng của chúng tôi. Vui
+                                            lòng
+                                            sử dụng ID đặt hàng của bạn như thanh toán tham chiếu. Đơn hàng của bạn sẽ
+                                            không
                                             được vận chuyển cho đến khi các khoản tiền đã được xóa trong tài khoản.
                                         </p>
                                     </label>
@@ -213,7 +220,8 @@
                                         Thanh toán khi nhận hàng
                                         <p class="option-detail">
                                             COD (Cash on Delivery) là phương thức thanh toán khi khách hàng trả tiền mặt
-                                            sau khi nhận hàng. Đây là lựa chọn phổ biến trong mua sắm trực tuyến, giúp tăng
+                                            sau khi nhận hàng. Đây là lựa chọn phổ biến trong mua sắm trực tuyến, giúp
+                                            tăng
                                             sự tin tưởng vì không cần trả trước.
                                         </p>
                                     </label>
@@ -224,16 +232,18 @@
                                     <label class="form-check-label" for="mode3">
                                         Paypal
                                         <p class="option-detail">
-                                            PayPal là phương thức thanh toán trực tuyến an toàn, cho phép người dùng thanh
-                                            toán, chuyển và nhận tiền qua internet mà không cần chia sẻ thông tin tài chính
-                                            với người bán.
+                                            PayPal là phương thức thanh toán trực tuyến an toàn, cho phép người dùng
+                                            thanh toán, chuyển và nhận tiền qua internet mà không cần chia sẻ thông tin tài
+                                            chính với người bán.
                                         </p>
                                     </label>
                                 </div>
                                 <div class="policy-text">
                                     Dữ liệu cá nhân của bạn sẽ được sử dụng để xử lý đơn đặt hàng của bạn, hỗ trợ trải
                                     nghiệm của bạn trên toàn trang web này và cho các mục đích khác được mô tả trong
-                                    <a href="terms.html" target="_blank">chính sách bảo mật</a> của chúng tôi.
+                                    <a href="{{ route('terms_conditions.index') }}" target="_blank">Điều Khoản, Điều
+                                        Kiện</a> và <a href="{{ route('privacy_policy.index') }}"target="_blank">Chính
+                                        Sách Bảo Mật</a> của chúng tôi.
                                 </div>
                             </div>
                             <button class="btn btn-primary btn-checkout">ĐẶT HÀNG</button>

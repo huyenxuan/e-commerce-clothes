@@ -325,7 +325,7 @@
                             <a href="{{ route('about.index') }}" class="navigation__link fw-bold">Về chúng tôi</a>
                         </li>
                         <li class="navigation__item">
-                            <a href="contact.html" class="navigation__link fw-bold">Liên hệ</a>
+                            <a href="{{ route('contact.index') }}" class="navigation__link fw-bold">Liên hệ</a>
                         </li>
                     </ul>
                 </div>
@@ -414,7 +414,7 @@
                             <a href="{{ route('about.index') }}" class="navigation__link fw-bold">Về chúng tôi</a>
                         </li>
                         <li class="navigation__item">
-                            <a href="contact.html" class="navigation__link fw-bold">Liên hệ</a>
+                            <a href="{{ route('contact.index') }}" class="navigation__link fw-bold">Liên hệ</a>
                         </li>
                     </ul>
                 </nav>
@@ -533,8 +533,23 @@
                         </a>
                     </div>
                     <p class="footer-address text-capitalize">Tả Thanh Oai, Thanh Trì, Hà Nội</p>
-                    <p class="m-0"><strong class="fw-medium">huyen107203@gmail.com</strong></p>
-                    <p><strong class="fw-medium">+84 123456789</strong></p>
+                    <p class="m-0">
+                        <strong class="fw-medium">
+                            <a href="mailto:huyen107203@gmail.com" style="color: #767676">
+                                Email: huyen107203@gmail.com
+                            </a>
+                        </strong>
+                    </p>
+                    <p class="m-0">
+                        <strong class="fw-medium">
+                            <a href="tel:+84909999999" style="color: #767676">Số điện thoại: +84 90 999 9999</a>
+                        </strong>
+                    </p>
+                    <p class="m-0">
+                        <strong class="fw-medium">
+                            <a href="https://zalo.me/0362322124" style="color: #767676">Zalo: +84 90 999 9999</a>
+                        </strong>
+                    </p>
 
                     <ul class="social-links list-unstyled d-flex flex-wrap mb-0">
                         <li>
@@ -586,8 +601,8 @@
                         </li>
                         <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Tiếp thị</a>
                         </li>
-                        <li class="sub-menu__item"><a href="blog_list1.html"
-                                class="menu-link menu-link_us-s">Blog</a></li>
+                        <li class="sub-menu__item"><a href="blog_list1.html" class="menu-link menu-link_us-s">Bài
+                                viết</a></li>
                         <li class="sub-menu__item"><a href="contact-2.html" class="menu-link menu-link_us-s">Liên
                                 hệ</a></li>
                     </ul>
@@ -614,13 +629,14 @@
                     <ul class="sub-menu__list list-unstyled">
                         <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Dịch vụ khách
                                 hàng</a></li>
-                        <li class="sub-menu__item"><a href="account_dashboard.html"
-                                class="menu-link menu-link_us-s">Tài khoản của tôi</a>
+                        <li class="sub-menu__item"><a href="{{ route('contact.index') }}"
+                                class="menu-link menu-link_us-s">Liên hệ</a>
                         </li>
                         <li class="sub-menu__item"><a href="store_location.html" class="menu-link menu-link_us-s">Tìm
                                 kiếm của hàng</a>
                         </li>
-                        <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Pháp lý & Quyền
+                        <li class="sub-menu__item"><a href="{{ route('privacy_policy.index') }}"
+                                class="menu-link menu-link_us-s">Pháp lý & Quyền
                                 riêng tư</a></li>
                         <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Quà tặng</a>
                         </li>

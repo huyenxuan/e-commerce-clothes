@@ -125,7 +125,7 @@ class CartController extends Controller
         if (!Auth::check()) {
             return redirect()->route('login')->with('warning', 'Vui lòng đăng nhập để thực hiện chức năng này');
         }
-        $address = Address::where('user_id', Auth::user()->id)->where('is_default')->first();
+        $address = Address::where('user_id', Auth::user()->id)->where('is_default', true)->first();
         $items = Cart::instance('cart')->content();
         return view('checkout', compact('address', 'items'));
     }
@@ -210,6 +210,7 @@ class CartController extends Controller
         } else {
             return;
         }
+
         // xóa giỏ hàng
         Cart::instance('cart')->destroy();
         Session::forget('checkout');

@@ -6,6 +6,9 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Coupon;
+use App\Models\Order;
+use App\Models\OrderItem;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
@@ -17,7 +20,6 @@ class AdminController extends Controller
     // khởi tạo hàm index
     public function index()
     {
-        // gọi view admin.index với dữ liệu truyền vào
         return view('admin.index')->with('success', 'Xin chào admin');
     }
 
@@ -69,8 +71,6 @@ class AdminController extends Controller
         $brand->image = $file_name;
         $this->GenerateBrandThumbnailsImage($image, $file_name);
         $brand->save();
-
-        // toastr()->success('Thêm thương hiệu thành công', [], 'Thành công');
         return redirect()->route('admin.brands')->with('success', 'Thêm thương hiệu thành công');
     }
     // edit brand
@@ -117,8 +117,6 @@ class AdminController extends Controller
             $this->GenerateBrandThumbnailsImage($image, $file_name);
         }
         $brand->save();
-
-        // toastr()->success('Cập nhật thương hiệu thành công', [], 'Thành công');
         return redirect()->route('admin.brands')->with('success', 'Thêm thương hiệu thành công');
     }
     // delete brand
@@ -129,7 +127,6 @@ class AdminController extends Controller
             File::delete(public_path('uploads/brands') . '/' . $brand->image);
         }
         $brand->delete();
-        // toastr()->success('Xóa thương hiệu thành công', [], 'Thành công');
         return redirect()->route('admin.brands')->with('success', 'Xóa thương hiệu thành công');
     }
 
@@ -258,7 +255,6 @@ class AdminController extends Controller
             File::delete(public_path('uploads/categories') . '/' . $category->image);
         }
         $category->delete();
-        // toastr()->success('Cập nhật danh mục thành công', [], 'Thành công');
         return redirect()->route('admin.categories')->with('success', 'Xóa danh mục thành công');
     }
     public function GenerateCategoryThumbnailsImage($image, $imageName)
@@ -624,5 +620,20 @@ class AdminController extends Controller
         $coupon->delete();
         // toastr()->success('Xóa mã giảm giá thành công', [], 'Thành công');
         return redirect()->route('admin.coupons')->with('success', 'Xóa mã giảm giá thành công');
+    }
+
+    // orders
+    public function orders()
+    {
+        $orders = Order::orderBy('created_at', 'desc')->paginate(12);
+        return view('admin.order', compact('orders'));
+    }
+    // order detail
+    public function order_details($orderId)
+    {
+        $order = Order::find($orderId);
+        $orderItems = OrderItem::where('order_id', $orderId)->orderBy('id', 'desc')->paginate(12);
+        $transaction = Transaction::where('order_id', $orderId)->first();
+        return view('admin.order-details', compact('order', 'orderItems', 'transaction'));
     }
 }

@@ -56,7 +56,8 @@ Route::get('/terms-conditions', [HomeController::class, 'terms_conditions'])->na
 // authenticated 
 // user
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [UserController::class, 'index'])->name('user.index');
+    Route::get('/account-dashboard', [UserController::class, 'index'])->name('user.index');
+    Route::get('/account-orders', [UserController::class, 'orders'])->name('user.orders');
 });
 // admin
 Route::middleware(['auth', AuthAdmin::class])->group(function () {

@@ -61,7 +61,7 @@
                                         <th class="text-center">Trạng thái</th>
                                         <th class="text-center">Ngày đặt</th>
                                         <th class="text-center">Số lượng</th>
-                                        <th class="text-center">Ngày vận chuyển</th>
+                                        <th class="text-center">Vận chuyển</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -81,7 +81,7 @@
                                             <td class="text-center">{{ $order->orderItems->count() }}</td>
                                             <td>{{ $order->delivered_date }}</td>
                                             <td class="text-center">
-                                                <a href="account-orders-details.html">
+                                                <a href="{{ route('user.orders.details', ['id' => $order->id]) }}">
                                                     <div class="list-icon-function view-icon">
                                                         <div class="item eye">
                                                             <i class="fa fa-eye"></i>

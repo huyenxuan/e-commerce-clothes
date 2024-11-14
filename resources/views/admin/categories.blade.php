@@ -40,9 +40,6 @@
                 </div>
                 <div class="wg-table table-all-user">
                     <div class="table-responsive">
-                        @if (Session::has('success'))
-                            <p class="alert alert-success">{{ Session::get('success') }}</p>
-                        @endif
                         <table class="table table-striped table-bordered w-100">
                             <thead>
                                 <tr>

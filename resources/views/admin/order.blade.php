@@ -70,7 +70,15 @@
                                         <td class="text-center">${{ $order->subtotal }}</td>
                                         <td class="text-center">${{ $order->after_discount ?? 0 }}</td>
 
-                                        <td class="text-center">{{ $order->status }}</td>
+                                        <td class="text-center">
+                                            @if ($order->status == 'Đã đặt hàng')
+                                                <span class="badge bg-warning">Đã đặt hàng</span>
+                                            @elseif ($order->status == 'Đã vận chuyển')
+                                                <span class="badge bg-success">Đã vận chuyển</span>
+                                            @else
+                                                <span class="badge bg-danger">Đã hủy</span>
+                                            @endif
+                                        </td>
                                         <td class="text-center">{{ $order->created_at }}</td>
                                         <td class="text-center">{{ $order->orderItems->count() }}</td>
                                         <td class="text-center">{{ $order->delivered_date }}</td>

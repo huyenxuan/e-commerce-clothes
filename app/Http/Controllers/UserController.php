@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Transaction;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -33,5 +34,18 @@ class UserController extends Controller
             return redirect()->route('login');
         }
         return view('user.order-details', compact('order', 'orderItems', 'transaction'));
+    }
+    // cancel order
+    public function cancel_order(Request $request)
+    {
+        $order = Order::find($request->order_id);
+        if ($order) {
+            $order->status = 'Đã hủy';
+            $order->canceled_date = Carbon::now();
+            $order->save();
+            return redirect()->route('user.orders')->with('success', 'Đơn hàng đã bị hủy thành công');
+        } else {
+            return redirect()->route('login');
+        }
     }
 }

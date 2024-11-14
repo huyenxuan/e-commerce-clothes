@@ -114,7 +114,15 @@
                             <th>Hình thức thanh toán</th>
                             <td>COD</td>
                             <th>Tình trạng đơn hàng</th>
-                            <td>{{ $transaction->status }}</td>
+                            <td>
+                                @if ($order->status == 'Đã đặt hàng')
+                                    <span class="badge bg-warning">Đã đặt hàng</span>
+                                @elseif ($order->status == 'Đã vận chuyển')
+                                    <span class="badge bg-success">Đã vận chuyển</span>
+                                @else
+                                    <span class="badge bg-danger">Đã hủy</span>
+                                @endif
+                            </td>
                         </tr>
                         <tr>
                             <th>Ngày đặt</th>
@@ -126,6 +134,33 @@
                         </tr>
                     </tbody>
                 </table>
+            </div>
+            <div class="wg-box mt-5">
+                <h5>Cập nhật trạng thái đơn hàng</h5>
+                <form action="{{ route('admin.order.update_status') }}" method="post">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" name="order_id" value="{{ $order->id }}">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="select">
+                                <select name="status" id="order_status">
+                                    <option {{ $order->status == 'Đã đặt hàng' ? 'selected' : '' }} value="Đã đặt hàng">Đã
+                                        đặt
+                                        hàng</option>
+                                    <option {{ $order->status == 'Đã vận chuyển' ? 'selected' : '' }}
+                                        value="Đã vận chuyển">Đã
+                                        vận chuyển</option>
+                                    <option {{ $order->status == 'Đã hủy' ? 'selected' : '' }} value="Đã hủy">Đã hủy
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-primary tf-button w-208">Cập nhật</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

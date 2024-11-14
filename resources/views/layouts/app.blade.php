@@ -10,7 +10,7 @@
 
     <title>@yield('title')</title>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <meta name="author" content="surfside media" />
+    <meta name="author" content="NXHUYENCLOTHES" />
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ asset('assets/css/plugins/swiper.min.css') }}" type="text/css" />
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" type="text/css" />
@@ -24,6 +24,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/sweetalert.min.css') }}">
     @stack('style')
 </head>
 
@@ -724,6 +725,7 @@
     <script src="{{ asset('assets/js/plugins/swiper.min.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/countdown.js') }}"></script>
     <script src="{{ asset('assets/js/theme.js') }}"></script>
+    <script src="{{ asset('js/sweetalert.min.js') }}"></script>
     @stack('scripts')
 </body>
 

@@ -636,4 +636,23 @@ class AdminController extends Controller
         $transaction = Transaction::where('order_id', $orderId)->first();
         return view('admin.order-details', compact('order', 'orderItems', 'transaction'));
     }
+    // order update status
+    public function order_update_status(Request $request)
+    {
+        $order = Order::find($request->order_id);
+        $transaction = Transaction::where('order_id', $request->order_id)->first();
+        $order->status = $request->status;
+        if ($request->status == 'Đã vận chuyển') {
+            $order->delivered_date = Carbon::now();
+            $transaction->status = 'Đã vận chuyển';
+            $transaction->save();
+        } else if ($request->status == 'Đã hủy') {
+            $order->canceled_date = Carbon::now();
+        } else {
+            $transaction->status = '';
+            $order->canceled_date = '';
+        }
+        $order->save();
+        return redirect()->back()->with('success', 'Cập nhật trạng thái đơn hàng thành công');
+    }
 }

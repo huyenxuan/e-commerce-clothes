@@ -116,10 +116,10 @@
                         <div class="flex items-center justify-between gap10 flex-wrap">
                             <div class="row">
                                 <div class="col-6">
-                                    <h5>Chi tiết đơn hàng</h5>
+                                    <h5 class="fw-bold">Chi tiết đơn hàng</h5>
                                 </div>
                                 <div class="col-6 text-right">
-                                    <a class="btn btn-sm btn-danger" href="{{ route('admin.orders') }}">Quay lại</a>
+                                    <a class="btn btn-sm btn-danger fw-bold" href="{{ route('user.orders') }}">Quay lại</a>
                                 </div>
                             </div>
                         </div>
@@ -167,7 +167,7 @@
                     </div>
 
                     <div class="wg-box mt-5">
-                        <h5>Địa chỉ: </h5>
+                        <h5 class="fw-bold">Địa chỉ: </h5>
                         <div class="my-account__address-item col-md-6">
                             <div class="my-account__address-item__detail">
                                 <p>Họ tên: {{ $order->name }}</p>
@@ -182,7 +182,7 @@
                     </div>
 
                     <div class="wg-box mt-5">
-                        <h5>Giao dịch</h5>
+                        <h5 class="fw-bold">Giao dịch</h5>
                         <table class="table table-striped table-bordered table-transaction">
                             <tbody>
                                 <tr>
@@ -194,15 +194,23 @@
                                     <td>${{ $order->after_discount }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Hình thức thanh toán</th>
+                                    <th>Thanh toán</th>
                                     <td>COD</td>
-                                    <th>Tình trạng đơn hàng</th>
-                                    <td>{{ $transaction->status }}</td>
+                                    <th>Tình trạng</th>
+                                    <td>
+                                        @if ($order->status == 'Đã đặt hàng')
+                                            <span class="badge bg-warning">Đã đặt hàng</span>
+                                        @elseif ($order->status == 'Đã vận chuyển')
+                                            <span class="badge bg-success">Đã vận chuyển</span>
+                                        @else
+                                            <span class="badge bg-danger">Đã hủy</span>
+                                        @endif
+                                    </td>
                                     <th>Ngày đặt</th>
                                     <td>{{ $order->created_at }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Ngày giao hàng</th>
+                                    <th>Ngày vận chuyển</th>
                                     <td>{{ $order->delivered_date }}</td>
                                     <th>Ngày hủy hàng</th>
                                     <td>{{ $order->canceled_date }}</td>
@@ -210,9 +218,39 @@
                             </tbody>
                         </table>
                     </div>
+                    @if ($order->status != 'Đã hủy' && $order->status != 'Đã vận chuyển')
+                        <div class="wg-box mt-5">
+                            <form action="{{ route('user.order.cancel_order') }}" method="post">
+                                @csrf
+                                @method('PUT')
+                                <input type="hidden" name="order_id" value="{{ $order->id }}">
+                                <button class="btn btn-danger cancel-order">Hủy đơn</button>
+                            </form>
+                        </div>
+                    @endif
                 </div>
-
             </div>
         </section>
     </main>
 @endsection
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('.cancel-order').on('click', function(e) {
+                e.preventDefault();
+                var form = $(this).closest('form');
+                swal({
+                    title: "Bạn muốn xóa?",
+                    text: "Bạn chắc chắn muốn hủy đơn?",
+                    icon: "warning",
+                    buttons: ["Không", "Có"],
+                    dangerMode: true,
+                }).then(function(result) {
+                    if (result) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    </script>
+@endpush

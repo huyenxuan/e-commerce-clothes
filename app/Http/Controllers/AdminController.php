@@ -11,6 +11,7 @@ use App\Models\OrderItem;
 use App\Models\Slide;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use Carbon\Carbon;
@@ -21,7 +22,47 @@ class AdminController extends Controller
     // khởi tạo hàm index
     public function index()
     {
-        return view('admin.index')->with('success', 'Xin chào admin');
+        $orders = Order::orderBy('created_at', 'desc')->get()->take(10);
+        $dashboardDatas = DB::select('SELECT sum(after_discount) AS totalAmount,
+                                            sum(if(status = "Đã đặt hàng", after_discount, 0)) AS totalOrderedAmount,
+                                            sum(if(status = "Đã vận chuyển", after_discount, 0)) AS totalDeliveredAmount,
+                                            sum(if(status = "Đã hủy", after_discount, 0)) AS totalCanceledAmount,
+                                            count(*) AS total,
+                                            sum(if(status = "Đã đặt hàng", 1, 0)) AS totalOrdered,
+                                            sum(if(status = "Đã vận chuyển", 1, 0)) AS totalDelivered,
+                                            sum(if(status = "Đã hủy", 1, 0)) AS totalCanceled
+                                            FROM orders');
+
+        $monthlyDatas = DB::select("SELECT m.id AS monthNo, m.name AS monthName,
+                                            IFNULL(D.totalAmount,0) AS totalAmount,
+                                            IFNULL(D.totalOrderedAmount,0) AS totalOrderedAmount,
+                                            IFNULL(D.totalDeliveredAmount,0) AS totalDeliveredAmount,
+                                            IFNULL(D.totalCanceledAmount,0) AS totalCanceledAmount
+                                            FROM month_names m
+                                            LEFT JOIN (SELECT DATE_FORMAT(created_at, '%b') AS monthName,
+                                                MONTH(created_at) AS monthNo,
+                                                sum(after_discount) AS totalAmount,
+                                                sum(if(status = 'Đã đặt hàng', after_discount, 0)) AS totalOrderedAmount,
+                                                sum(if(status = 'Đã vận chuyển', after_discount, 0)) AS totalDeliveredAmount,
+                                                sum(if(status = 'Đã hủy', after_discount, 0)) AS totalCanceledAmount
+                                                FROM orders WHERE YEAR(created_at)=YEAR(NOW()) GROUP BY YEAR(created_at), MONTH(created_at), DATE_FORMAT(created_at, '%b')
+                                                ORDER BY MONTH(created_at))
+                                            D ON D.monthNo=m.id");
+
+        $amountM = implode(',', collect($monthlyDatas)->pluck('totalAmount')->toArray());
+        $OrderedAmountM = implode(',', collect($monthlyDatas)->pluck('totalOrderedAmount')->toArray());
+        $DeliveredAmountM = implode(',', collect($monthlyDatas)->pluck('totalDeliveredAmount')->toArray());
+        $CanceledAmountM = implode(',', collect($monthlyDatas)->pluck('totalCanceledAmount')->toArray());
+
+        $totalAmount = collect($monthlyDatas)->sum('totalAmount');
+        $totalOrderedAmount = collect($monthlyDatas)->sum('totalOrderedAmount');
+        $totalDeliveredAmount = collect($monthlyDatas)->sum('totalDeliveredAmount');
+        $totalCanceledAmount = collect($monthlyDatas)->sum('totalCanceledAmount');
+
+        return view(
+            'admin.index',
+            compact('orders', 'dashboardDatas', 'monthlyDatas', 'amountM', 'OrderedAmountM', 'DeliveredAmountM', 'CanceledAmountM', 'totalAmount', 'totalOrderedAmount', 'totalDeliveredAmount', 'totalCanceledAmount')
+        )->with('success', 'Xin chào admin');
     }
 
     // brands

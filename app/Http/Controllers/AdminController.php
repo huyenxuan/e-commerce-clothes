@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\Slide;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -654,5 +655,130 @@ class AdminController extends Controller
         }
         $order->save();
         return redirect()->back()->with('success', 'Cập nhật trạng thái đơn hàng thành công');
+    }
+
+    // slides
+    public function slides()
+    {
+        $slides = Slide::orderBy('id', 'desc')->paginate(12);
+        return view('admin.slides', compact('slides'));
+    }
+    // add slide
+    public function slide_add()
+    {
+        return view('admin.slide-add');
+    }
+    // store slide
+    public function slide_store(Request $request)
+    {
+        $request->validate([
+            'tagline' => 'required|string',
+            'title' => 'required|string',
+            'subtitle' => 'required|string',
+            'links' => 'required|string',
+            'status' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ], [
+            'tagline.required' => 'Khẩu hiệu không được để trống',
+            'tagline.string' => 'Khẩu hiệu phải là chuỗi',
+            'title.required' => 'Tiêu đề không được để trống',
+            'title.string' => 'Tiêu đề phải là chuỗi',
+            'subtitle.required' => 'Phụ đề không được để trống',
+            'subtitle.string' => 'Phụ đề phải là chuỗi',
+            'links.required' => 'Liên kết không được để trống',
+            'links.string' => 'Liên kết phải là chuỗi',
+            'status.required' => 'Trạng thái không được để trống',
+            'image.required' => 'Hình ảnh không được để trống',
+            'image.image' => 'Hình ảnh phải là ảnh',
+            'image.mimes' => 'Hình ảnh phải có đuôi file jpeg, png, jpg, gif, svg',
+            'image.max' => 'Hình ảnh không quá 2MB',
+        ]);
+
+        $slide = new Slide();
+        $slide->tagline = $request->tagline;
+        $slide->title = $request->title;
+        $slide->subtitle = $request->subtitle;
+        $slide->links = $request->links;
+        $slide->status = $request->status;
+
+        // lưu ảnh
+        $image = $request->file('image');
+        $file_extension = $image->extension();
+        $file_name = Carbon::now()->timestamp . '.' . $file_extension;
+        $this->GenerateSlideImage($image, $file_name);
+        $slide->image = $file_name;
+
+        $slide->save();
+        return redirect()->route('admin.slides')->with('success', 'Thêm slide thành công');
+    }
+    public function GenerateSlideImage($image, $file_name)
+    {
+        $destinationPath = public_path('uploads/slides');
+        $img = Image::read($image->path());
+        $img->cover(400, 690, 'top');
+        $img->resize(400, 690, function ($constraint) {
+            $constraint->aspectRatio();
+        })->save($destinationPath . '/' . $file_name);
+    }
+    // edit slide
+    public function slide_edit($id)
+    {
+        $slide = Slide::find($id);
+        return view('admin.slide-edit', compact('slide'));
+    }
+    // update slide
+    public function slide_update(Request $request)
+    {
+        $request->validate([
+            'tagline' => 'required|string',
+            'title' => 'required|string',
+            'subtitle' => 'required|string',
+            'links' => 'required|string',
+            'status' => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ], [
+            'tagline.required' => 'Khẩu hiệu không được để trống',
+            'tagline.string' => 'Khẩu hiệu phải là chuỗi',
+            'title.required' => 'Tiêu đề không được để trống',
+            'title.string' => 'Tiêu đề phải là chuỗi',
+            'subtitle.required' => 'Phụ đề không được để trống',
+            'subtitle.string' => 'Phụ đề phải là chuỗi',
+            'links.required' => 'Liên kết không được để trống',
+            'links.string' => 'Liên kết phải là chuỗi',
+            'status.required' => 'Trạng thái không được để trống',
+            'image.image' => 'Hình ảnh phải là ảnh',
+            'image.mimes' => 'Hình ảnh phải có đuôi file jpeg, png, jpg, gif, svg',
+            'image.max' => 'Hình ảnh không quá 2MB',
+        ]);
+        $slide = Slide::find($request->id);
+        $slide->tagline = $request->tagline;
+        $slide->title = $request->title;
+        $slide->subtitle = $request->subtitle;
+        $slide->links = $request->links;
+        $slide->status = $request->status;
+
+        if ($request->hasFile('image')) {
+            if (File::exists(public_path('uploads/slides') . '/' . $slide->image)) {
+                File::delete(public_path('uploads/slides') . '/' . $slide->image);
+            }
+            $image = $request->file('image');
+            $file_extension = $image->extension();
+            $file_name = Carbon::now()->timestamp . '.' . $file_extension;
+            $this->GenerateSlideImage($image, $file_name);
+            $slide->image = $file_name;
+        }
+
+        $slide->save();
+        return redirect()->route('admin.slides')->with('success', 'Thêm slide thành công');
+    }
+    // delete slide
+    public function slide_delete($id)
+    {
+        $slide = Slide::find($id);
+        if (File::exists(public_path('uploads/slides') . '/' . $slide->image)) {
+            File::delete(public_path('uploads/slides') . '/' . $slide->image);
+        }
+        $slide->delete();
+        return redirect()->route('admin.slides')->with('success', 'Xóa slide thành công');
     }
 }

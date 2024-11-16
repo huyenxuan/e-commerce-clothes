@@ -46,9 +46,9 @@
                     <div class="box-logo">
                         <a href="{{ route('admin.index') }}" id="site-logo-inner">
                             <img class="" id="logo_header_1" alt=""
-                                src="{{ asset('images/logo/logo.png') }}"
-                                data-light="{{ asset('images/logo/logo.png') }}"
-                                data-dark="{{ asset('images/logo/logo.png') }}">
+                                src="{{ asset('assets/images/logo.png') }}"
+                                data-light="{{ asset('assets/images/logo.png') }}"
+                                data-dark="{{ asset('assets/images/logo.png') }}">
                         </a>
                         <div class="button-show-hide">
                             <i class="icon-menu-left"></i>
@@ -141,11 +141,23 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="menu-item">
-                                    <a href="slider.html" class="">
+                                <li class="menu-item has-children">
+                                    <a href="javascript:void(0);" class="menu-item-button">
                                         <div class="icon"><i class="icon-image"></i></div>
                                         <div class="text">Slider</div>
                                     </a>
+                                    <ul class="sub-menu">
+                                        <li class="sub-menu-item">
+                                            <a href="{{ route('admin.slide.add') }}" class="">
+                                                <div class="text">Thêm slide</div>
+                                            </a>
+                                        </li>
+                                        <li class="sub-menu-item">
+                                            <a href="{{ route('admin.slides') }}" class="">
+                                                <div class="text">DS Slide</div>
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </li>
                                 <li class="menu-item">
                                     <a href="{{ route('admin.coupons') }}" class="">

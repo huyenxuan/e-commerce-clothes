@@ -338,7 +338,6 @@ class AdminController extends Controller
             'short_description' => ['required'],
             'description' => ['required'],
             'regular_price' => ['required'],
-            'sale_price' => ['required'],
             'SKU' => ['required'],
             'stock_status' => ['required'],
             'featured' => ['required'],
@@ -355,7 +354,6 @@ class AdminController extends Controller
             'short_description.required' => 'Mô tả ngắn không được để trống',
             'description.required' => 'Mô tả chi tiết không được để trống',
             'regular_price.required' => 'Giá gốc không được để trống',
-            'sale_price.required' => 'Giá khuyến mãi không được để trống',
             'SKU.required' => 'Mã sản phẩm không được để trống',
             'stock_status.required' => 'Trạng thái hàng tồn không được để trống',
             'featured.required' => 'Sản phẩm nổi bật không được để trống',
@@ -456,7 +454,6 @@ class AdminController extends Controller
             'short_description' => ['required'],
             'description' => ['required'],
             'regular_price' => ['required'],
-            'sale_price' => ['required'],
             'SKU' => ['required'],
             'stock_status' => ['required'],
             'featured' => ['required'],
@@ -473,7 +470,6 @@ class AdminController extends Controller
             'short_description.required' => 'Mô tả ngắn không được để trống',
             'description.required' => 'Mô tả chi tiết không được để trống',
             'regular_price.required' => 'Giá gốc không được để trống',
-            'sale_price.required' => 'Giá khuyến mãi không được để trống',
             'SKU.required' => 'Mã sản phẩm không được để trống',
             'stock_status.required' => 'Trạng thái hàng tồn không được để trống',
             'featured.required' => 'Sản phẩm nổi bật không được để trống',
@@ -810,7 +806,8 @@ class AdminController extends Controller
         }
 
         $slide->save();
-        return redirect()->route('admin.slides')->with('success', 'Thêm slide thành công');
+        toastr()->success('Cập nhật slide thành công', [], 'Thành công');
+        return redirect()->route('admin.slides')->with('success', 'Cập nhật slide thành công');
     }
     // delete slide
     public function slide_delete($id)
@@ -820,6 +817,7 @@ class AdminController extends Controller
             File::delete(public_path('uploads/slides') . '/' . $slide->image);
         }
         $slide->delete();
+        toastr()->success('Xóa slide thành công', [], 'Thành công');
         return redirect()->route('admin.slides')->with('success', 'Xóa slide thành công');
     }
 }

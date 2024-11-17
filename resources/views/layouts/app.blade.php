@@ -341,8 +341,6 @@
                     <span class="d-inline-block ms-2 text-uppercase align-middle fw-medium">My Account</span>
                 </div>
 
-
-
                 <ul class="container social-links list-unstyled d-flex flex-wrap mb-0">
                     <li>
                         <a href="#" class="footer__social-link d-block ps-0">

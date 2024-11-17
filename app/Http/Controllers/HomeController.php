@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Slide;
+use App\Models\Contact;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -32,6 +33,35 @@ class HomeController extends Controller
     public function contact()
     {
         return view('contact');
+    }
+    // contact store
+    public function contact_store(Request $request)
+    {
+        // Validate form data
+        $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|email',
+            'phone' => 'required|numeric',
+            'message' => 'required|string'
+        ], [
+            'name.required' => 'Vui lòng nhập họ tên',
+            'email.required' => 'Vui lòng nhập email',
+            'email.email' => 'Vui lòng nhập email hợp lệ',
+            'phone.required' => 'Vui lòng nhập số điện thoại',
+            'phone.numeric' => 'Vui lòng nhập số điện thoại hợp lệ',
+            'message.required' => 'Vui lòng nhập nội dung tin nhắn'
+        ]);
+
+        // Store contact form data
+        $contact = new Contact();
+        $contact->name = $request->name;
+        $contact->email = $request->email;
+        $contact->phone = $request->phone;
+        $contact->message = $request->message;
+        $contact->save();
+
+        // Redirect to contact success page
+        return redirect()->route('contact.index')->with('success', 'Nội dung của bạn đã được gửi. Chúng tôi sẽ sớm liên hệ với bạn.');
     }
 
     // privacy policy

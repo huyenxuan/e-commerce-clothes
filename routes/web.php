@@ -46,6 +46,7 @@ Route::get('/about', [HomeController::class, 'about'])->name('about.index');
 
 // contact
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact.index');
+Route::post('/contact/store', [HomeController::class, 'contact_store'])->name('contact.store');
 
 // privacy policy
 Route::get('/privacy-policy', [HomeController::class, 'privacy_policy'])->name('privacy_policy.index');

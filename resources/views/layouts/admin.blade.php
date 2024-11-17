@@ -422,7 +422,7 @@
                                                     <img src="images/avatar/user-1.png" alt="">
                                                 </span>
                                                 <span class="flex flex-column">
-                                                    <span class="body-title mb-2">Kristin Watson</span>
+                                                    <span class="body-title mb-2">NXHuyenClothes</span>
                                                     <span class="text-tiny">Admin</span>
                                                 </span>
                                             </span>
@@ -463,7 +463,7 @@
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="login.html" class="user-item">
+                                                <a href="{{ route('logout') }}" class="user-item">
                                                     <div class="icon">
                                                         <i class="icon-log-out"></i>
                                                     </div>

@@ -17,29 +17,40 @@
         <section class="contact-us container">
             <div class="mw-930">
                 <div class="contact-us__form">
-                    <form name="contact-us-form" class="needs-validation" novalidate="" method="POST">
+                    <form name="contact-us-form" class="needs-validation" novalidate="" method="POST"
+                        action="{{ route('contact.store') }}">
+                        @csrf
                         <h3 class="mb-5">Liên hệ với chúng tôi qua form dưới đây</h3>
                         <div class="form-floating my-4">
-                            <input type="text" class="form-control" name="name" placeholder="Họ tên *" required="">
+                            <input type="text" class="form-control" name="name" placeholder="Họ tên *" required=""
+                                value="{{ old('name') }}">
                             <label for="contact_us_name">Họ tên *</label>
-                            <span class="text-danger"></span>
+                            @error('name')
+                                <span class="alert alert-danger d-flex px-3 py-1 mt-1">{{ $message }}</span>
+                            @enderror
                         </div>
                         <div class="form-floating my-4">
                             <input type="text" class="form-control" name="phone" placeholder="Số điện thoại *"
-                                required="">
+                                required="" value="{{ old('phone') }}">
                             <label for="contact_us_name">Số điện thoại *</label>
-                            <span class="text-danger"></span>
+                            @error('phone')
+                                <span class="alert alert-danger d-flex px-3 py-1 mt-1">{{ $message }}</span>
+                            @enderror
                         </div>
                         <div class="form-floating my-4">
                             <input type="email" class="form-control" name="email" placeholder="Địa chỉ email *"
-                                required="">
+                                required="" value="{{ old('email') }}">
                             <label for="contact_us_name">Địa chỉ email *</label>
-                            <span class="text-danger"></span>
+                            @error('email')
+                                <span class="alert alert-danger d-flex px-3 py-1 mt-1">{{ $message }}</span>
+                            @enderror
                         </div>
                         <div class="my-4">
-                            <textarea class="form-control form-control_gray" name="comment" placeholder="Lời nhắn của bạn" cols="30"
-                                rows="8" required=""></textarea>
-                            <span class="text-danger"></span>
+                            <textarea class="form-control form-control_gray" name="message" placeholder="Lời nhắn của bạn" cols="30"
+                                rows="8" required="">{{ old('message') }}</textarea>
+                            @error('message')
+                                <span class="alert alert-danger d-flex px-3 py-1 mt-1">{{ $message }}</span>
+                            @enderror
                         </div>
                         <div class="my-4">
                             <button type="submit" class="btn btn-primary">Gửi đi</button>

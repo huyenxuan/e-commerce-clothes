@@ -75,4 +75,16 @@ class HomeController extends Controller
     {
         return view('terms-conditions');
     }
+
+    // search
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+        $result = Product::where('name', 'LIKE', "%{$query}%")
+            ->orWhere('description', 'LIKE', "%{$query}%")
+            ->orWhere('regular_price', 'LIKE', "%{$query}%")
+            ->orWhere('sale_price', 'LIKE', "%{$query}%")
+            ->take(8)->get();
+        return response()->json($result);
+    }
 }

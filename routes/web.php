@@ -54,6 +54,9 @@ Route::get('/privacy-policy', [HomeController::class, 'privacy_policy'])->name('
 // terms conditions
 Route::get('/terms-conditions', [HomeController::class, 'terms_conditions'])->name('terms_conditions.index');
 
+// search
+Route::get('/search', [HomeController::class, 'search'])->name('home.search');
+
 // authenticated 
 // user
 Route::middleware(['auth'])->group(function () {

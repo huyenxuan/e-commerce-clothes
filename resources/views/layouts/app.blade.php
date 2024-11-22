@@ -25,6 +25,37 @@
         href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/sweetalert.min.css') }}">
+    <style>
+        .product-item {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 15px;
+            transition: all .3s ease;
+            padding-right: 5px;
+        }
+
+        .product-item .image {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            gap: 10px;
+            flex-shrink: 0;
+            padding: 5px;
+            border-radius: 10px;
+            background: #EFF4F8;
+        }
+
+        #box-content-search li {
+            list-style: none;
+        }
+
+        #box-content-search .product-item {
+            margin-bottom: 10px;
+        }
+    </style>
     @stack('style')
 </head>
 
@@ -432,10 +463,11 @@
 
                         <div class="search-popup js-hidden-content">
                             <form action="#" method="GET" class="search-field container">
-                                <p class="text-uppercase text-secondary fw-medium mb-4">What are you looking for?</p>
+                                <p class="text-uppercase text-secondary fw-medium mb-4">Bạn đang tìm kiếm điều gì?</p>
                                 <div class="position-relative">
                                     <input class="search-field__input search-popup__input w-100 fw-medium"
-                                        type="text" name="search-keyword" placeholder="Search products" />
+                                        type="text" name="search-keyword" id="search-input"
+                                        placeholder="Tìm kiếm ..." />
                                     <button class="btn-icon search-popup__submit" type="submit">
                                         <svg class="d-block" width="20" height="20" viewBox="0 0 20 20"
                                             fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -446,25 +478,9 @@
                                 </div>
 
                                 <div class="search-popup__results">
-                                    <div class="sub-menu search-suggestion">
-                                        <h6 class="sub-menu__title fs-base">Quicklinks</h6>
-                                        <ul class="sub-menu__list list-unstyled">
-                                            <li class="sub-menu__item"><a href="shop2.html"
-                                                    class="menu-link menu-link_us-s">New Arrivals</a>
-                                            </li>
-                                            <li class="sub-menu__item"><a href="#"
-                                                    class="menu-link menu-link_us-s">Dresses</a></li>
-                                            <li class="sub-menu__item"><a href="shop3.html"
-                                                    class="menu-link menu-link_us-s">Accessories</a>
-                                            </li>
-                                            <li class="sub-menu__item"><a href="#"
-                                                    class="menu-link menu-link_us-s">Footwear</a></li>
-                                            <li class="sub-menu__item"><a href="#"
-                                                    class="menu-link menu-link_us-s">Sweatshirt</a></li>
-                                        </ul>
-                                    </div>
+                                    <ul id="box-content-search">
 
-                                    <div class="search-result row row-cols-5"></div>
+                                    </ul>
                                 </div>
                             </form>
                         </div>
@@ -517,7 +533,6 @@
             </div>
         </div>
     </header>
-
     @yield('content')
 
     <hr class="mt-5 text-secondary" />
@@ -724,6 +739,49 @@
     <script src="{{ asset('assets/js/plugins/countdown.js') }}"></script>
     <script src="{{ asset('assets/js/theme.js') }}"></script>
     <script src="{{ asset('js/sweetalert.min.js') }}"></script>
+    <script>
+        $(function() {
+            $('#search-input').on('keyup', function() {
+                var searchQuery = $(this).val();
+                if (searchQuery.length > 2) {
+                    $.ajax({
+                        type: 'GET',
+                        url: "{{ route('home.search') }}",
+                        data: {
+                            query: searchQuery
+                        },
+                        dataType: 'json',
+                        success: function(data) {
+                            $('#box-content-search').html('');
+                            $.each(data, function(index, item) {
+                                var url =
+                                    "{{ route('shop.product.details', ['product_slug' => 'product_slug_pls']) }}";
+                                var link = url.replace('product_slug_pls', item.slug);
+                                $('#box-content-search').append(
+                                    `<li>
+                                        <ul>
+                                            <li class="product-item gap14 mb10">
+                                                <div class="image no-bg">
+                                                    <img src="{{ asset('uploads/products') }}/${item.image}" alt="${item.name}">
+                                                </div>
+                                                <div class="flex items-center justify-between gap20 flex-grow">
+                                                    <div class="name">
+                                                        <a href="${link}" class="body-text">${item.name}</a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="mb-10">
+                                                <div class="divider"></div>
+                                            </li>
+                                        </ul>
+                                    </li>`);
+                            });
+                        }
+                    })
+                }
+            })
+        });
+    </script>
     @stack('scripts')
 </body>
 
